@@ -2,7 +2,7 @@
 
 This repository contains the work I performed for Darena Solutions (now Darena Health), this is part of their website known as MeldRx. While a lot of sensitive information is obviously taken out, filtered and anonymized, the core structure and logic of the code remains, in terms of the things I directly built and worked on.
 
-This repository is meant to showcase only my contributions and is not intended for production use or to even be deployed as-is, therefore a lot of files and folders are excluded. Please be aware that this code may contain placeholders or mock data where sensitive information has been removed.
+This repository is meant to showcase only my contributions and is not intended for production use or to even be deployed as-is, therefore a lot of files and folders that are excluded. Please be aware that this code may contain placeholders or mock data where sensitive information has been removed.
 
 Also this code does not reflect the scope of the original project as it only contains my contributions during my time of working at Darena Solutions.
 
