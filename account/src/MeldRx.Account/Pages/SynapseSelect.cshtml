@@ -1,0 +1,91 @@
+﻿@page
+@model MeldRx.Account.Pages.SynapseSelectModel
+@{
+    ViewData["Title"] = "Synapse Organizations";
+    Layout = "_BasicLayout";
+}
+
+<style>
+    .circle {
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: #0B9A81;
+        color: white;
+        text-align: center;
+        line-height: 50px;
+    }
+</style>
+
+<div>
+    <div class="pb-2">
+        <h1 class="text-center">You are invited to share healthcare data with</h1>
+        <h1 class="text-center" style="color: #095E86">@Model.FhirServerName</h1>
+        <hr style="border-top: 2px solid #D9D9D9; width: 100%; margin-top: 20px; margin-bottom: 20px;">
+    </div>
+
+    @if (Model.CompletedOrganization != null)
+    {
+        <div>
+            <h1 class="my-3 text-center text-primary">Data from @Model.CompletedOrganization.OrganizationName has been successfully shared!</h1>
+            <h4 class="my-3 text-center">Select another source from the list below to share more data</h4>
+            <hr style="border-top: 2px solid #D9D9D9; width: 100%; margin-top: 20px; margin-bottom: 20px;">
+        </div>
+    }
+
+    <div class="d-flex justify-content-center">
+        <div>
+            <div class="row m-2">
+                <h2 class="col-md-12 my-3 text-center">Connect To Your Health Data</h2>
+            </div>
+
+            <div class="pb-5">
+                <form method="get">
+                    <div class="Common-Search-section">
+                        <input asp-for="Code" hidden/>
+                        <input asp-for="WorkspaceSlug" hidden/>
+                        <input name="organizationName" value="@ViewBag.Search" type="text" placeholder="Search Organizations" class="form-control"/>
+                        <input type="submit" hidden/>
+                    </div>
+                </form>
+            </div>
+            @if (Model.Organizations.Count <= 0)
+            {
+                <h3 class="text-danger d-flex justify-content-center">
+                    There are no matching organizations
+                </h3>
+            }
+            else
+            {
+                <div class="white-box table-responsive" style="max-height: 375px">
+                    <table class="table mb-0">
+                        <tbody>
+                        @foreach (var organization in Model.Organizations)
+                        {
+                            @if (organization.Id != Model.CompletedOrganization?.Id)
+                            {
+                                <tr>
+                                    <td class="align-middle">
+                                        <div class="circle">@organization.OrganizationName[0]</div>
+                                    </td>
+                                    <td class="align-middle">@organization.OrganizationName</td>
+                                    <td class="align-middle">
+                                        <form method="post">
+                                            <input type="hidden" name="code" value="@Model.Code"/>
+                                            <input type="hidden" name="code" value="@Model.WorkspaceSlug"/>
+                                            <input type="hidden" name="synapseOrganizationId" value="@organization.Id"/>
+                                            <button type="submit" class="btn btn-primary custom-button">Connect</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        </tbody>
+
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>

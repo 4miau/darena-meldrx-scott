@@ -1,0 +1,131 @@
+﻿@page "/invite/{type}/{parameter?}"
+@using MeldRx.Account
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model MeldRx.Account.Pages.InviteModel
+
+@{
+    Layout = "~/Views/Shared/_MeldRxLayout.cshtml";
+}
+
+@if (!User.Identity.IsAuthenticated)
+{
+    <div class="login-page grid-container">
+    <div class="content-box login-form-area grid-container">
+        <h2 class="text-black">Invitation received</h2>
+        @if (!string.IsNullOrEmpty(Model.Logo))
+            {
+                <div class="invite-page-logo">
+                    <img class="invite-logo" src="@Model.Logo" />
+                </div>
+            }
+            <h4>@Model.InviteAnonymousDetailsDto.Title</h4>
+            <p>@Model.InviteAnonymousDetailsDto.Subtitle</p>
+            <h4> You will need an account with MeldRx to accept the invitation </h4>
+        <form method="post">
+            <div style="display: flex; gap: 8px;">
+                <button id="create-account-button" class="btn btn-primary btn-login" type="submit" name="actionString" value="Register"> Create Account </button>
+                <button id="sign-in-button" class="btn btn-primary btn-login" type="submit" name="actionString" value="Login">Sign In</button>
+            </div>
+        </form>
+            <p>
+                Read our <a id="privacy-notice" class="underline"
+                    href="https://static1.squarespace.com/static/5c3ce7fc2714e564a6af4b46/t/636c0bf01c2df938c7c8954c/1668025328978/Darena+Solutions+Privacy+Notice+Nov+2022.pdf">Privacy
+                    Notice</a>
+            </p>
+        </div>
+    </div>
+}
+else
+{
+    <div class="login-page grid-container">
+    <div class="content-box login-form-area grid-container">
+        <h2 class="text-black">Accept invitation</h2>
+        @if (!string.IsNullOrEmpty(Model.Logo))
+            {
+                <div class="invite-page-logo">
+                    <img class="invite-logo" src="@Model.Logo" />
+                </div>
+            }
+            <h4>You have received an invitation to access health records.</h4>
+            @if (Model.HasExistingRelationships)
+            {
+                <div class="content-sub-box grid-container">
+                    <h4>It looks like this account already has access to health records.</h4>
+                    <h4>You can:</h4>
+                    <ol>
+                        <li>Connect these health records to an existing person</li>
+                        <li>Add a new person</li>
+                    </ol>
+                    <div>
+                        <label class="label" for="person-type-dropdown">Make a selection <span class="text-danger">*</span></label>
+                        <select id="person-type-dropdown" asp-for="PersonType" class="form-control"
+                            onchange="updateHiddenField()" required>
+                            @if (Model.PersonType == PersonTypes.NewPerson)
+                            {
+                                <option value="NewPerson" selected="selected">Add a new person</option>
+                            }
+                            else
+                            {
+                                <option value="NewPerson">Add a new person</option>
+                            }
+                            @foreach (var person in Model.ExistingPeople)
+                            {
+                                @if (Model?.SelectedExistingPersonId != null && Model.SelectedExistingPersonId.Equals(person.PersonId))
+                                {
+                                    <option value="ExistingPerson" data-person-id="@person.PersonId" selected="selected">
+                                        @person.DisplayName</option>
+                                }
+                                else
+                                {
+                                    <option value="ExistingPerson" data-person-id="@person.PersonId">@person.DisplayName</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+            }
+            <form method="post" class="grid-container">
+                <input type="text" id="has-existing-relationships" asp-for="HasExistingRelationships" hidden />
+                <input type="hidden" id="selected-existing-person-id" asp-for="SelectedExistingPersonId" />
+                <input type="hidden" id="person-type" asp-for="PersonType" />
+                <div>
+                    <label for="person-relationship-type" class="label">Relationship to patient <span class="text-danger">*</span></label>
+                    <select id="person-relationship-type" name="InviteAcceptBySecurityDetailsDto.PersonRelationshipType"
+                        asp-for="InviteAcceptBySecurityDetailsDto.PersonRelationshipType" required>
+                        @if (Model.Relationships != null && Model.Relationships.Length > 0)
+                        {
+                            @foreach (var item in Model.Relationships)
+                            {
+                                <option value="@item">@item</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <h4>Security validation</h4>
+                <div>
+                    <label class="label">Last Name <span class="text-danger">*</span></label>
+                    <input type="text" asp-for="InviteAcceptBySecurityDetailsDto.LastName" required class="form-control" required>
+                    <span asp-validation-for="InviteAcceptBySecurityDetailsDto.LastName" class="text-danger"></span>
+                </div>
+                <div>
+                    <label class="label">Date Of Birth <span class="text-danger">*</span></label>
+                    <input type="date" asp-for="InviteAcceptBySecurityDetailsDto.DateOfBirth" id="date-of-birth"
+                        class="form-control" placeholder="Choose a Date" required>
+                    <span asp-validation-for="InviteAcceptBySecurityDetailsDto.DateOfBirth" class="text-danger"></span>
+                </div>
+                <div>
+                    <button id="submit-button" class="btn btn-primary btn-login" type="submit" name="actionString"
+                        value="AcceptInvite">Accept
+                        invitation</button>
+                </div>
+            </form>
+            <p>
+                Read our <a id="privacy-notice" class="underline"
+                    href="https://static1.squarespace.com/static/5c3ce7fc2714e564a6af4b46/t/636c0bf01c2df938c7c8954c/1668025328978/Darena+Solutions+Privacy+Notice+Nov+2022.pdf">Privacy
+                    Notice</a>
+            </p>
+        </div>
+    </div>
+}
+
+<script type="text/javascript" src="~/dist/js/accept-invite.js"></script>

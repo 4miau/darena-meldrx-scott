@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "module": "NodeNext",
+    "baseUrl": ".",
+    "forceConsistentCasingInFileNames": true,
+    "strict": true
+  }
+}

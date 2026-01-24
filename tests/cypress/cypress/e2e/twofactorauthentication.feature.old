@@ -1,0 +1,59 @@
+Feature: Allow the user to configure two factor authentication
+
+  Scenario: 1. Check navigation
+    Given I am logged in as a user with id 'twofactor-nav'
+    And I am on the two factor management screen with two factor 'disabled'
+    When I click the setup authenticator button
+    Then I arrive at the two factor enable screen
+
+  Scenario: 2. Enable two factor
+    Given I am logged in as a user with id 'twofactor-enable'
+    And I am on the two factor enable screen
+    When I provide a valid verification code
+    And I click the verify button
+    Then I am on the recovery code screen
+
+  Scenario: 3. Login with two factor
+    Given I am logged in as a user with id 'twofactor-enable'
+    And I am on the two factor login screen
+    When I provide a valid authenticator code
+    And I click the log in button
+    Then I am on the home screen
+
+  Scenario: 4. Login with recovery code
+    Given I am logged in as a user with id 'twofactor-enable'
+    And I am on the two factor login screen
+    When I click the log in with recovery code button
+    And I type a recovery code into the box
+    And I click the recovery code submit button
+    Then I am on the home screen
+
+  Scenario: 5. Reset two factor codes (nav)
+    Given I am logged in as a user with id 'twofactor-enable'
+    And I provide two factor information
+    And I am on the two factor management screen with two factor 'enabled'
+    When I click the reset recovery codes button
+    Then I am on the reset recovery codes warning screen
+
+  Scenario: 6. Reset two factor codes (perform action)
+    Given I am logged in as a user with id 'twofactor-enable'
+    And I provide two factor information
+    And I am on the two factor management screen with two factor 'enabled'
+    When I click the reset recovery codes button
+    And I confirm that I want to reset my recovery codes
+    Then I am on the new recovery codes screen
+
+  Scenario: 7. Remove two factor (nav)
+    Given I am logged in as a user with id 'twofactor-enable'
+    And I provide two factor information
+    And I am on the two factor management screen with two factor 'enabled'
+    When I click the disable two factor button
+    Then I am on the disable two factor warning screen
+
+  Scenario: 8. Remove two factor (perform action)
+    Given I am logged in as a user with id 'twofactor-enable'
+    And I provide two factor information
+    And I am on the two factor management screen with two factor 'enabled'
+    When I click the disable two factor button
+    And I confirm that I want to disable two factor
+    Then I arrive at the two factor management screen with two factor 'disabled'

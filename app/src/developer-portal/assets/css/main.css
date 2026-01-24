@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-seafoam: 2, 182, 137;
+}
+
+::selection {
+  background-color: rgba(var(--color-seafoam), 0.4) !important;
+}
+
+/**
+ DsButton
+**/
+
+.ds-button {
+    @apply font-normal text-sm text-center focus:ring-1 focus:outline-none;
+}
+
+.ds-button[disabled] { @apply text-onyx border border-transparent bg-dsgray hover:bg-dsgray }
+
+/** Filled Variant **/
+.ds-button--filled-primary      { @apply text-white     bg-dsprimary        hover:bg-dark-cyan      focus:ring-dsprimary; }
+.ds-button--filled-secondary    { @apply text-white     bg-secondary        hover:bg-indigo         focus:ring-secondary; }
+.ds-button--filled-fire         { @apply text-white     bg-fire             hover:bg-ember          focus:ring-fire; }
+.ds-button--filled-white        { @apply text-onyx      bg-white            hover:bg-silver         focus:ring-0; }
+.ds-button--filled-marigold     { @apply text-marigold      bg-white            hover:bg-silver         focus:ring-0; }
+
+/** Outline Variant **/
+.ds-button--outline-primary     { @apply text-dsprimary     border border-dsprimary     bg-white hover:bg-silver focus:ring-dsprimary; }
+.ds-button--outline-secondary   { @apply text-secondary     border border-secondary     bg-white hover:bg-silver focus:ring-secondary; }
+.ds-button--outline-fire        { @apply text-fire          border border-fire          bg-white hover:bg-silver focus:ring-fire; }
+.ds-button--outline-white       { @apply text-onyx          border border-silver        bg-white hover:bg-silver focus:ring-onyx; }
+.ds-button--outline-onyx        { @apply text-onyx          border border-onyx        bg-white hover:bg-silver focus:ring-black; }
+.ds-button--outline-marigold    { @apply text-marigold          border border-marigold        bg-white hover:bg-silver focus:ring-onyx; }
+
+/** Sublte Variant **/
+.ds-button--subtle-primary      { @apply text-dsprimary     bg-white    hover:bg-silver  focus:ring-dsprimary; }
+.ds-button--subtle-secondary    { @apply text-secondary     bg-white    hover:bg-silver  focus:ring-secondary; }
+.ds-button--subtle-fire         { @apply text-fire          bg-white    hover:bg-silver  focus:ring-fire; }
+.ds-button--subtle-white        { @apply text-onyx          bg-white    hover:bg-silver  focus:ring-onyx; }
+.ds-button--subtle-marigold     { @apply text-marigold          bg-white    hover:bg-silver  focus:ring-onyx; }
+
+/** Transparent Variant **/
+.ds-button--transparent-primary     { @apply text-dsprimary     bg-transparent hover:text-dark-cyan focus:ring-0; }
+.ds-button--transparent-secondary   { @apply text-secondary     bg-transparent hover:text-indigo    focus:ring-0; }
+.ds-button--transparent-fire        { @apply text-fire          bg-transparent hover:text-ember     focus:ring-0; }
+.ds-button--transparent-white       { @apply text-onyx          bg-transparent hover:text-black     focus:ring-0; }
+.ds-button--transparent-marigold    { @apply text-marigold          bg-transparent hover:text-honey     focus:ring-0; }
+
+/** DsButton Sizes **/
+.ds-button--sm { @apply py-1.5; }
+.ds-button--md { @apply py-2; }
